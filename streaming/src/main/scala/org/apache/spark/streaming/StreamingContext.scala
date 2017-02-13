@@ -153,6 +153,7 @@ class StreamingContext private[streaming] (
 
   private[streaming] val env = sc.env
 
+  // 处理DStream之间的依赖关系
   private[streaming] val graph: DStreamGraph = {
     if (isCheckpointPresent) {
       _cp.graph.setContext(this)
@@ -167,7 +168,7 @@ class StreamingContext private[streaming] (
   }
 
   private val nextInputStreamId = new AtomicInteger(0)
-
+  // 检查点
   private[streaming] var checkpointDir: String = {
     if (isCheckpointPresent) {
       sc.setCheckpointDir(_cp.checkpointDir)
