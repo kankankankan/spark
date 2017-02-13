@@ -181,12 +181,16 @@ class StreamingContext private[streaming] (
     if (isCheckpointPresent) _cp.checkpointDuration else graph.batchDuration
   }
 
+  // 定时生成Spark job
   private[streaming] val scheduler = new JobScheduler(this)
 
+  // 用于指任务执行结束
   private[streaming] val waiter = new ContextWaiter
 
+  // 监听Streaming job ，用于更新StreamingTab显示
   private[streaming] val progressListener = new StreamingJobProgressListener(this)
 
+  // StreamingTab 流式计算的标签页，由sparkUi负责展示
   private[streaming] val uiTab: Option[StreamingTab] =
     if (conf.getBoolean("spark.ui.enabled", true)) {
       Some(new StreamingTab(this))
@@ -195,6 +199,7 @@ class StreamingContext private[streaming] (
     }
 
   /* Initializing a streamingSource to register metrics */
+  //  流式计算的测量数据源
   private val streamingSource = new StreamingSource(this)
 
   private var state: StreamingContextState = INITIALIZED

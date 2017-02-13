@@ -249,6 +249,13 @@ class SparkContext(config: SparkConf) extends Logging {
   // An asynchronous listener bus for Spark events
   private[spark] val listenerBus = new LiveListenerBus(this)
 
+  /**
+    *
+    * @param conf 是SparkConf的复制
+    * @param isLocal 标识是否是单机执行模式
+    * @param listenerBus 采用监听器模式维护各类事件的处理
+    * @return
+    */
   // This function allows components created by SparkEnv to be mocked in unit tests:
   private[spark] def createSparkEnv(
       conf: SparkConf,
